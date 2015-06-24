@@ -262,7 +262,7 @@ def rr():
 
   cmd.alter( "name o2*","vdw=0.5" )
   cmd.show( "spheres", "name o2'+'o2*' and not name o2" )
-  cmd.show( "sticks", "name 'o2*'+'c2*'a" )
+  cmd.show( "sticks", "name o2'+c2'+'o2*'+'c2*' " )
   cmd.show( "sticks", "resn hoh" )
 
   cmd.alter( "resn mg", "vdw=1.0")
