@@ -39,8 +39,7 @@ Check out:
 How to install
 --------------
 
-Get the script. Either download the pymol_daslab.py script from [this link](https://raw.github.com/DasLab/pymol_daslab/master/pymol_daslab.py).
-Or, if you are planning to make edits, type:
+Get the script. Either download the folder from [this link](https://github.com/DasLab/pymol_daslab/archive/master.zip) or, if you are planning to make edits, type:
 
 <code>git clone https://github.com/DasLab/pymol_daslab</code>
 
@@ -50,10 +49,18 @@ In pymol, type
  run pymol_daslab.py
 </code>
 
-Or (much easier) create or edit a <code>.pymolrc</code> text file in your home directory, and add a line like:
+Or (much easier) create or edit a <code>.pymolrc</code> text file in your home directory, and add lines like:
 
 <code>
- run ~/src/pymol_daslab/pymol_daslab.py
+ import sys
+</code>
+
+<code>
+ sys.path.append('/Path/To/pymol_daslab')
+</code>
+ 
+<code>
+ run /Path/To/pymol_daslab/pymol_daslab.py
 </code>
 
 --------------
