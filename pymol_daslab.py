@@ -268,6 +268,7 @@ def rr():
   cmd.alter( "resn mg", "vdw=1.0")
   cmd.alter( "resn hoh", "vdw=0.5")
   cmd.show( "spheres", "resn mg+sr+co+zn+hoh and not elem H")
+  cmd.hide( "ev","name RP*")
 
 def render_rna():
   rr()
@@ -279,6 +280,7 @@ def rrs():
   """
   rr()
   cmd.show( 'sticks', 'not elem H' )
+  cmd.hide( "ev","name RP*")
 
 def render_rna_sticks():
   rr()
