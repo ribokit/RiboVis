@@ -1,76 +1,62 @@
------------------------
- pymol_daslab.py    
------------------------
-(C) R. Das 2008-2013
+# pymol_daslab
+
 ![1q9a example image](https://raw.github.com/DasLab/pymol_daslab/master/1q9a.png)
-------------
-What this is
-------------
 
-This python script includes a few useful, short functions for making pictures of RNA and proteins in pymol in our 'lab style':
+**pymol_daslab** is a set of useful and short *Python* functions for making pictures of RNA and proteins in pymol in our 'lab style'. For a quick preview:
 
-<ul>
-<li><code>rr()</code>
- useful for RNA, with 2' OH as spheres, bases as filled rings, and backbone as cartoon ribbons, rainbow colored from 5' to 3'. No hydrogens, white background. 
-</li>
+| Function | Description |
+| --- | --- |
+| `rr()` | For RNA: with 2&prime; OH as spheres, bases as filled rings, and backbone as cartoon ribbons, rainbow colored from 5&prime; to 3&prime;. No hydrogens, white background. |
+| `rd()` | For proteins: side chains are all-atom and colored _CPK_, backbone is rainbow cartoon from N to C terminus. |
+| `sa()` | Superimposes all models to the first one. _Thanks to Kyle Beauchamp for this one_ |
 
-<li>
-<code>rd()</code>
- useful for proteins -- side chains are all-atom and colored CPK, backbone is rainbow cartoon from N to C terminus.
-</li>
+And more! ...
 
-<li>
-<code>sa()</code>
- superimposes all models to the first one. [Thanks to Kyle Beauchamp for this one]
-</li>
-</ul>
+## Installation
 
-and more...
+To install **pymol_daslab**, simply:
 
---------------
-Example images & help
---------------
-Check out: 
+- From GitHub, download the zip or tar file of the repository and unpack; or 
 
-[example images and help](https://docs.google.com/document/d/1uWeEEGPjAceaw07ESf9bec-FrxW4Bx6jGaBqoHbSXuo/edit)
+```bash
+git clone https://github.com/DasLab/pymol_daslab.git
+```
 
+- In _PyMol_, type:
 
---------------
-How to install
---------------
+```python
+run pymol_daslab.py
+```
 
-Get the script. Either download the folder from [this link](https://github.com/DasLab/pymol_daslab/archive/master.zip) or, if you are planning to make edits, type:
+Tested quickly with:
 
-<code>git clone https://github.com/DasLab/pymol_daslab</code>
-
-In pymol, type 
-
-<code>
- run pymol_daslab.py
-</code>
-
-Or (much easier) create or edit a <code>.pymolrc</code> text file in your home directory, and add lines like:
-
-<code>
- import sys
-</code>
-
-<code>
- sys.path.append('/Path/To/pymol_daslab')
-</code>
- 
-<code>
- run /Path/To/pymol_daslab/pymol_daslab.py
-</code>
-
---------------
-Quick test
---------------
-
-Open up pymol. Type:
-
-<code>
+```python
 fetch 1q9a
 rr()
-</code>
+```
+
+- _(Optional)_ Create or edit a `.pymolrc` file in your home directory, add these lines:
+
+```python
+import sys
+sys.path.append('/path/to/pymol_daslab')
+run /path/to/pymol_daslab/pymol_daslab.py
+```
+
+> Replce with your `/path/to/pymol_daslab`.
+
+This will automatically load `pymol_daslab` upon start every time.
+
+## Documentation
+
+Documentation is available at https://ribokit.github.io/pymol_daslab/.
+
+## License
+
+Copyright &copy; of **pymol_daslab** _Source Code_ is described in [LICENSE.md](https://github.com/DasLab/pymol_daslab/blob/master/LICENSE.md).
+
+<br/>
+Developed by **Das lab**, _Leland Stanford Junior University_.
+<br/>
+README by [**t47**](http://t47.io/), *April 2016*.
 
