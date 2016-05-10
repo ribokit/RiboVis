@@ -1,8 +1,8 @@
-# pymol_daslab
+# RiboVis
 
-![1q9a example image](https://raw.github.com/DasLab/pymol_daslab/master/1q9a.png)
+![1q9a example image](https://raw.github.com/ribokit/RiboVis/master/1q9a.png)
 
-**pymol_daslab** is a set of useful and short *Python* functions for making pictures of RNA and proteins in pymol in our 'lab style'. For a quick preview:
+**RiboVis** is a set of useful and short *Python* functions for making pictures of RNA and proteins in pymol in our 'lab style'. For a quick preview:
 
 | Function | Description |
 | --- | --- |
@@ -14,12 +14,12 @@ And more! ...
 
 ## Installation
 
-To install **pymol_daslab**, simply:
+To install **RiboVis**, simply:
 
 - From GitHub, download the zip or tar file of the repository and unpack; or 
 
 ```bash
-git clone https://github.com/DasLab/pymol_daslab.git
+git clone https://github.com/ribokit/RiboVis.git
 ```
 
 - In _PyMol_, type:
@@ -39,21 +39,21 @@ rr()
 
 ```python
 import sys
-sys.path.append('/path/to/pymol_daslab')
-run /path/to/pymol_daslab/pymol_daslab.py
+sys.path.append('/path/to/RiboVis')
+run /path/to/RiboVis/pymol_daslab.py
 ```
 
-> Replce with your `/path/to/pymol_daslab`.
+> Replce with your `/path/to/RiboVis`.
 
 This will automatically load `pymol_daslab` upon start every time.
 
 ## Documentation
 
-Documentation is available at https://ribokit.github.io/pymol_daslab/.
+Documentation is available at https://ribokit.github.io/RiboVis/.
 
 ## License
 
-Copyright &copy; of **pymol_daslab** _Source Code_ is described in [LICENSE.md](https://github.com/DasLab/pymol_daslab/blob/master/LICENSE.md).
+Copyright &copy; of **RiboVis** _Source Code_ is described in [LICENSE.md](https://github.com/ribokit/RiboVis/blob/master/LICENSE.md).
 
 <br/>
 Developed by **Das lab**, _Leland Stanford Junior University_.
