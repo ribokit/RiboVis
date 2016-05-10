@@ -2,6 +2,7 @@ from pymol import cmd,util
 import inspect
 from glob import glob
 from spectrumany import spectrumany
+import os
 
 # Pymol commands used by the Das Lab
 # (C) R. Das 2010-2013.
@@ -454,3 +455,64 @@ def load_movie( filename_string, movie_name = "mov" ):
   lst = glob( filename_string )
   lst.sort()
   for fil in lst: cmd.load(fil, movie_name )
+
+
+def rpv(pdb_obj, pdb_file = None):
+  return render_phenix_validation(pdb_obj, pdb_file)
+
+def render_phenix_validation(pdb_obj, pdb_file = None):
+  """
+  Run phenix.rna_validate on pdb file and color problematic residues red
+
+  NOTE: requires phenix and ERRASER 
+  """
+
+  print
+
+  try:
+    import erraser_util
+  except ImportError as e:
+    print '[ImportError] could not load module: erraser_util'
+    return False
+
+  print 'Rendering PHENIX Structure Validation for pdb object:', pdb_obj
+
+  if pdb_obj.endswith('.pdb'):
+    pdb_file = pdb_obj
+    pdb_obj = pdb_obj[:-4]
+
+  pdb_temp = pdb_file
+  if pdb_temp is None:
+    pdb_temp = '.' + pdb_obj + '.render_phenix_validation.pdb'
+    print 'Writing temporary pdb file:', pdb_temp
+    print '[Warning] PHENIX may have issues reading in PyMOL formatted pdb'
+    cmd.save(pdb_temp, pdb_obj)    
+
+  if not os.path.exists(pdb_temp):
+    print '[Error] could not find pdb file:', pdb_temp
+    return False
+
+  print 'Running phenix.rna_validate analysis for pdb:', pdb_temp
+  validation = erraser_util.phenix_rna_validate(pdb_temp, outliers_only=False)
+
+  for k, v in validation.iteritems():
+    if not len(v):
+      continue
+    print 'outlier type:', k
+    for line in v:
+        if 'suite' in k:
+            if line[3] == '__' or float(line[4]) > 0.1:
+                continue
+        if len(line) < 3:
+          continue 
+        chain, res = line[1], line[2]
+        sele = '{o} and (chain {c} and resi {r})'.format(o=pdb_obj, c=chain, r=res)
+        print 'outlier selection:', sele 
+        cmd.color('red', sele)
+
+  if pdb_file is None:
+    print 'Removing temporary pdb file:', pdb_temp
+    os.system('rm -f ' + pdb_temp) 
+
+  print
+  return True
