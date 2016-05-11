@@ -457,9 +457,11 @@ def load_movie( filename_string, movie_name = "mov" ):
   for fil in lst: cmd.load(fil, movie_name )
 
 
+@cmd.extend
 def rpv(pdb_obj, pdb_file = None):
   return render_phenix_validation(pdb_obj, pdb_file)
 
+@cmd.extend
 def render_phenix_validation(pdb_obj, pdb_file = None):
   """
   Run phenix.rna_validate on pdb file and color problematic residues red
