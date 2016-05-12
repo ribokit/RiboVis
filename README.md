@@ -25,7 +25,7 @@ git clone https://github.com/ribokit/RiboVis.git
 - In _PyMol_, type:
 
 ```python
-run pymol_daslab.py
+run ribovis.py
 ```
 
 Tested quickly with:
@@ -40,12 +40,12 @@ rr()
 ```python
 import sys
 sys.path.append('/path/to/RiboVis')
-run /path/to/RiboVis/pymol_daslab.py
+run /path/to/RiboVis/ribovis.py
 ```
 
 > Replce with your `/path/to/RiboVis`.
 
-This will automatically load `pymol_daslab` upon start every time.
+This will automatically load `ribovis` upon start every time.
 
 ## Documentation
 
