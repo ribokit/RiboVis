@@ -49,6 +49,10 @@ def color_by_data( filename, offset = 0, min_val=-1.0, max_val = 0.0, palette = 
   126 1.50
 
   and color specified residue numbers by scalar values.
+
+  If you specify a third column, that will set color of the backbone,
+  separately from the base.
+
   Takes advantage of B-factor column, and color by temperature
   function in pymol. Note that coloring is scaled/offset based
   on lowest/highest scalar value.
@@ -268,6 +272,9 @@ def rr():
   cmd.show( "spheres", "name o2'+'o2*' and not name o2" )
   cmd.show( "sticks", "name o2'+c2'+'o2*'+'c2*' " )
   cmd.show( "sticks", "resn hoh" )
+
+  cmd.alter( "name MG","vdw=0.5" )
+  cmd.show( "spheres", "name MG" )
 
   cmd.alter( "resn mg", "vdw=1.0")
   cmd.alter( "resn hoh", "vdw=0.5")
