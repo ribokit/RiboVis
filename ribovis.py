@@ -102,6 +102,26 @@ def color_by_data( filename, offset = 0, min_val=-1.0, max_val = 0.0, palette = 
   #cmd.ramp_new("ramp_obj", "1gid_RNAA", range=[0, 0, max_val], color="[blue, white, red ]")
 
 
+def color_by_rgb( filename ):
+  """
+  Read in a text file with rows like:
+
+  125 0.1 0.1 0.1
+  126 0.5 0.2 0.2
+
+  and color specified residue numbers by RGB values.
+
+  """
+  lines = open( filename ).readlines()
+  for line in lines:
+    cols = string.split( line )
+    j = cols[0]
+    colorname = "col" + str(j)
+    cmd.set_color( colorname, (float(cols[1]),float(cols[2]),float(cols[3])) )
+    print colorname
+    cmd.color( colorname, 'resi %s' % cols[0] )
+
+
 def align_all( subset = [] ):
   """
   Superimpose all open models onto the first one.
