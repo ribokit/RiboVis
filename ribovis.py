@@ -102,7 +102,7 @@ def color_by_data( filename, offset = 0, min_val=-1.0, max_val = 0.0, palette = 
   #cmd.ramp_new("ramp_obj", "1gid_RNAA", range=[0, 0, max_val], color="[blue, white, red ]")
 
 
-def color_by_rgb( filename ):
+def color_by_rgb( filename, selection = "all" ):
   """
   Read in a text file with rows like:
 
@@ -113,16 +113,17 @@ def color_by_rgb( filename ):
 
   """
   lines = open( filename ).readlines()
+  print "Applying RGB values from: " , filename
   for line in lines:
     cols = string.split( line )
     j = cols[0]
-    colorname = "col" + str(j)
+    colorname = string.split(filename)[0] + str(j)
     cmd.set_color( colorname, (float(cols[1]),float(cols[2]),float(cols[3])) )
-    print colorname
-    cmd.color( colorname, 'resi %s' % cols[0] )
+    #print colorname
+    cmd.color( colorname, 'resi %s and %s' % (cols[0],selection) )
 
 
-def align_all( subset = [] ):
+def align_all( subset = [], cealign = False ):
   """
   Superimpose all open models onto the first one.
   This may not work well with selections.
@@ -139,8 +140,15 @@ def align_all( subset = [] ):
       for m in range( 1,len(subset)): subset_tag += '+%d' % subset[m]
     elif isinstance( subset, str ) and len( subset ) > 0:
       subset_tag = ' and %s' % subset
-    cmd.align(x+subset_tag,AllObj[0]+subset_tag)
+
+    if cealign:
+      cmd.cealign(AllObj[0]+subset_tag, x+subset_tag)
+    else:
+      cmd.align(x+subset_tag,AllObj[0]+subset_tag)
     cmd.zoom()
+
+def cealign_all( subset = [] ):
+  align_all( subset, cealign = True )
 
 def render_molecules():
   rd()
@@ -236,7 +244,7 @@ def render_rhiju():
   rj()
 
 
-def rr():
+def rr( selection = "all" ):
   """
   rhiju's favorite coloring of RNA
   with 2' OH as spheres,
@@ -246,60 +254,42 @@ def rr():
   """
   cmd.bg_color( "white" )
 
-  cmd.hide( 'everything' )
-  cmd.show('sticks','not elem H')
+  cmd.hide( "everything",selection )
+  cmd.show('sticks','not elem H and ' + selection )
 
-  cmd.color( 'red','resn rG+G+DG')
-  cmd.color( 'forest','resn rC+C+DC')
-  cmd.color( 'orange','resn rA+A+DA')
-  cmd.color( 'blue','resn rU+U+DT+BRU')
+  cmd.color( 'red','resn rG+G+DG and ' + selection)
+  cmd.color( 'forest','resn rC+C+DC and ' + selection)
+  cmd.color( 'orange','resn rA+A+DA and ' + selection)
+  cmd.color( 'blue','resn rU+U+DT+BRU and ' + selection)
 
-  #cmd.set( 'cartoon_ring_color',  'red','resn rG+G+DG')
-  #cmd.set( 'cartoon_ring_color',  'forest','resn rC+C+DC')
-  #cmd.set( 'cartoon_ring_color',  'orange','resn rA+A+DA')
-  #cmd.set( 'cartoon_ring_color',  'blue','resn rU+U+DT+BRU')
+  cmd.color( 'red','resn rG+G and name n1+c6+o6+c5+c4+n7+c8+n9+n3+c2+n1+n2 and ' + selection)
+  cmd.color( 'forest','resn rC+C and name n1+c2+o2+n3+c4+n4+c5+c6 and ' + selection)
+  cmd.color( 'orange','resn rA+A and name n1+c6+n6+c5+n7+c8+n9+c4+n3+c2 and ' + selection)
+  cmd.color( 'blue','resn rU+U and name n3+c4+o4+c5+c6+n1+c2+o2 and ' + selection)
 
-  #cmd.select('bases','name c2+c4+c5+c6+c8+n1+n2+n3+n4+n6+n7+n9+o2+o4+o6+n1p')
-  #cmd.select('backbone', 'name o1p+o2p+o3p+p+c1*+c2*+c3*+c5*+o2*+o3*+o4*+o5*')
-  #cmd.select('sugar', 'name c1*+c2*+c3*+c4*+o2*+o4*')
-  AllObj=cmd.get_names("all")
-
-  cmd.color( 'red','resn rG+G and name n1+c6+o6+c5+c4+n7+c8+n9+n3+c2+n1+n2')
-  cmd.color( 'forest','resn rC+C and name n1+c2+o2+n3+c4+n4+c5+c6')
-  cmd.color( 'orange','resn rA+A and name n1+c6+n6+c5+n7+c8+n9+c4+n3+c2')
-  cmd.color( 'blue','resn rU+U and name n3+c4+o4+c5+c6+n1+c2+o2')
-
-
-  cmd.select( 'backbone', " (name o1p+o2p+o3p+p+op1+op2+'c1*'+'c2*'+'c3*'+'c5*'+'o2*'+'o3*'+'o4*'+'o5*'+'c1*'+'c2*'+'c3*'+'c4*'+'o2*'+'o4*'+c1'+c2'+c3'+c5'+o2'+o3'+o4'+o5'+c1'+c2'+c3'+c4'+o2'+o4') and (not name c1+c2+c3+c4+c5+o2+o3+o4+o5) ")
-
-  for x in AllObj:
-    cmd.show( "cartoon", x )
-    cmd.spectrum( "count", "rainbow", x+" and backbone" )
-    #cmd.color( 'white', 'backbone' )
-
+  cmd.select( 'backbone', " (name o1p+o2p+o3p+p+op1+op2+'c1*'+'c2*'+'c3*'+'c5*'+'o2*'+'o3*'+'o4*'+'o5*'+'c1*'+'c2*'+'c3*'+'c4*'+'o2*'+'o4*'+c1'+c2'+c3'+c5'+o2'+o3'+o4'+o5'+c1'+c2'+c3'+c4'+o2'+o4') and (not name c1+c2+c3+c4+c5+o2+o3+o4+o5) and " + selection)
+  cmd.spectrum( "count", "rainbow", "backbone" )
   cmd.cartoon( "tube", "backbone" )
+  cmd.hide( "sticks", "backbone" )
+  cmd.delete('backbone')
 
+  cmd.show( "cartoon", selection )
   cmd.set( "cartoon_ring_mode", 3 )
   cmd.set( "cartoon_ring_transparency", 0.0 )
   cmd.set( "cartoon_tube_radius", 0.2 )
 
-  cmd.hide( "sticks", "backbone" )
+  cmd.alter( "name o2* and "+selection,"vdw=0.5" )
+  cmd.show( "spheres", "name o2'+'o2*' and not name o2 and "+selection)
+  cmd.show( "sticks", "name o2'+c2'+'o2*'+'c2*' and "+selection )
+  cmd.show( "sticks", "resn hoh and "+selection )
 
-  cmd.delete('backbone')
+  cmd.alter( "name MG and "+selection,"vdw=0.5")
+  cmd.show( "spheres", "name MG and "+selection )
 
-
-  cmd.alter( "name o2*","vdw=0.5" )
-  cmd.show( "spheres", "name o2'+'o2*' and not name o2" )
-  cmd.show( "sticks", "name o2'+c2'+'o2*'+'c2*' " )
-  cmd.show( "sticks", "resn hoh" )
-
-  cmd.alter( "name MG","vdw=0.5" )
-  cmd.show( "spheres", "name MG" )
-
-  cmd.alter( "resn mg", "vdw=1.0")
-  cmd.alter( "resn hoh", "vdw=0.5")
-  cmd.show( "spheres", "resn mg+sr+co+zn+hoh and not elem H")
-  cmd.hide( "ev","name RP*")
+  cmd.alter( "resn mg and "+selection, "vdw=1.0")
+  cmd.alter( "resn hoh and "+selection, "vdw=0.5")
+  cmd.show( "spheres", "resn mg+sr+co+zn+hoh and not elem H and "+selection)
+  cmd.hide( "ev","name RP* and "+selection)
 
 def render_rna():
   rr()
