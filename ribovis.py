@@ -122,6 +122,14 @@ def color_by_rgb( filename, selection = "all" ):
     #print colorname
     cmd.color( colorname, 'resi %s and %s' % (cols[0],selection) )
 
+def blue_red( which_property = "resi", selection="all", minval = 0.0, maxval = 2.0 ):
+  """
+  mainly a mnemonic for a command I use all the time.
+  Note that which_property can be "p.bisulfite" or something,
+   if the user-defined property is defined!
+  """
+  cmd.spectrum( which_property, "blue_white_red", selection, minval, maxval )
+
 
 def align_all( subset = [], cealign = False ):
   """
