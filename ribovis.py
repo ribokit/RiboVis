@@ -11,7 +11,6 @@ from glob import glob
 # https://docs.google.com/document/d/1uWeEEGPjAceaw07ESf9bec-FrxW4Bx6jGaBqoHbSXuo/edit
 #
 
-
 def sa(intra=False,rainbow=True):
   """
   Superimpose all open models onto the first one.
@@ -95,11 +94,10 @@ def color_by_data( filename, offset = 0, min_val=-1.0, max_val = 0.0, palette = 
   if ( min_val < 0 ): min_val = min_data
   if ( max_val < 0 ): max_val = max_data
 
-  if palette == 'rainbow':
-    cmd.spectrum( "b", palette,"all",min_val,max_val )
-  else:
-    pass
-    #spectrumany( "b", palette,"all",min_val,max_val )
+  #if palette == 'rainbow':
+  cmd.spectrum( "b", palette,"all",min_val,max_val )
+  #else:
+  #  spectrumany( "b", palette,"all",min_val,max_val )
   #cmd.ramp_new("ramp_obj", "1gid_RNAA", range=[0, 0, max_val], color="[blue, white, red ]")
 
 
