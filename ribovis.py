@@ -1,7 +1,7 @@
 from pymol import cmd,util
 import inspect
 from glob import glob
-from spectrumany import spectrumany
+#from spectrumany import spectrumany
 
 # Pymol commands used by the Das Lab
 # (C) R. Das 2010-2013.
@@ -98,7 +98,8 @@ def color_by_data( filename, offset = 0, min_val=-1.0, max_val = 0.0, palette = 
   if palette == 'rainbow':
     cmd.spectrum( "b", palette,"all",min_val,max_val )
   else:
-    spectrumany( "b", palette,"all",min_val,max_val )
+    pass
+    #spectrumany( "b", palette,"all",min_val,max_val )
   #cmd.ramp_new("ramp_obj", "1gid_RNAA", range=[0, 0, max_val], color="[blue, white, red ]")
 
 
