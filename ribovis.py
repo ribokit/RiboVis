@@ -11,6 +11,41 @@ from glob import glob
 # https://docs.google.com/document/d/1uWeEEGPjAceaw07ESf9bec-FrxW4Bx6jGaBqoHbSXuo/edit
 #
 
+@cmd.extend
+def all_vs_all(filename='rms_matrix.txt'):
+  AllObj=cmd.get_names("public_objects") # not temps created by alignment or selections
+  matrix = []
+  for x in AllObj:
+    x_to_all = []
+    for y in AllObj:
+      rmsd = cmd.rms( x, y, cutoff=10)#[0] # super-inclusive
+      x_to_all.append(rmsd)
+    matrix.append(x_to_all)
+  print matrix
+  outfile = open(filename,'w')
+  # No names 'on top' -- we can figure these out from the vertical ordering
+  # and they're way too long...
+  #for name in AllObj:
+  #  outfile.write("\t%s" % name)
+  #outfile.write("\n")
+  maxlen = 0
+  for obj in AllObj:
+    if maxlen < len(obj):
+      maxlen = len(obj)
+  
+  print_allobj = []
+  for obj in AllObj:
+    while len(obj) < maxlen:
+      obj += ' '
+    print_allobj.append(obj)
+  ni = 0
+  for x in matrix:
+    outfile.write(print_allobj[ni])
+    ni += 1
+    for y in x:
+      outfile.write("\t%0.2f" % y)
+    outfile.write("\n")
+
 def sa(intra=False,rainbow=True):
   """
   Superimpose all open models onto the first one.
