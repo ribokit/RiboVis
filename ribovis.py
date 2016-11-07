@@ -178,7 +178,7 @@ def rd():
     cmd.color( "blue", x+" and elem N" )
     cmd.color( "red", x+" and elem O" )
     cmd.color( "yellow", x+" and elem S" )
-    cmd.spectrum( "count", "rainbow", x+" and name CA+C" )
+    cmd.spectrum( "resi", "rainbow", x+" and name CA+C" )
     cmd.show( "sticks", x +" and not elem H and not name C+N+O" )
     cmd.show( "sticks", x +" and resn PRO and name N" )
     cmd.show( "sticks", x + " and name NR+CR+CS+CP+CQ" )
@@ -203,7 +203,7 @@ def rx():
     cmd.color( "blue", x+" and elem N" )
     cmd.color( "red", x+" and elem O" )
     cmd.color( "yellow", x+" and elem S" )
-    cmd.spectrum( "count", "rainbow", x+" and name CA+C" )
+    cmd.spectrum( "resi", "rainbow", x+" and name CA+C" )
     #cmd.show( "sticks", x +" and not elem H and not name C+N+O" )
 
     cmd.select('backbone','name o+c+ca+n')
@@ -237,7 +237,7 @@ def rj():
     cmd.color( "blue", x+" and resn lys+arg+his" )
     cmd.color( "purple", x+" and resn cys" )
     cmd.color( "forest", x+" and resn tyr+thr+ser+gln+asn" )
-    #cmd.spectrum( "count", "rainbow", x+" and name CA" )
+    #cmd.spectrum( "resi", "rainbow", x+" and name CA" )
     cmd.show( "sticks", x +" and not elem H and not name C+N+O" )
     cmd.show( "sticks", x +" and resn PRO and name N" )
     cmd.hide( "sticks", x + " and name NR+CR+CS+CP+CQ" )
@@ -275,7 +275,7 @@ def rr( selection = "all" ):
   cmd.color( 'blue','resn rU+U and name n3+c4+o4+c5+c6+n1+c2+o2 and ' + selection)
 
   cmd.select( 'backbone', " (name o1p+o2p+o3p+p+op1+op2+'c1*'+'c2*'+'c3*'+'c5*'+'o2*'+'o3*'+'o4*'+'o5*'+'c1*'+'c2*'+'c3*'+'c4*'+'o2*'+'o4*'+c1'+c2'+c3'+c5'+o2'+o3'+o4'+o5'+c1'+c2'+c3'+c4'+o2'+o4') and (not name c1+c2+c3+c4+c5+o2+o3+o4+o5) and " + selection)
-  cmd.spectrum( "count", "rainbow", "backbone" )
+  cmd.spectrum( "resi", "rainbow", "backbone" )
   cmd.cartoon( "tube", "backbone" )
   cmd.hide( "sticks", "backbone" )
   cmd.delete('backbone')
@@ -416,7 +416,7 @@ def rb():
   cmd.set( "cartoon_rect_width", 0.2 )
   for x in AllObj:
     print(AllObj[0],x)
-    cmd.spectrum( "count", "rainbow", x )
+    cmd.spectrum( "resi", "rainbow", x )
 
 def atomcolor():
   """
