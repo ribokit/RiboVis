@@ -32,7 +32,7 @@ def all_vs_all(filename='rms_matrix.txt'):
   for obj in AllObj:
     if maxlen < len(obj):
       maxlen = len(obj)
-  
+
   print_allobj = []
   for obj in AllObj:
     while len(obj) < maxlen:
@@ -298,7 +298,9 @@ def rr( selection = "all" ):
 
   cmd.hide( "everything",selection )
   cmd.show('sticks','not elem H and ' + selection )
+  cmd.hide( "everything","resn HOH" )
 
+  cmd.color('white','elem C and ' + selection )
   cmd.color( 'red','resn rG+G+DG and ' + selection)
   cmd.color( 'forest','resn rC+C+DC and ' + selection)
   cmd.color( 'orange','resn rA+A+DA and ' + selection)
