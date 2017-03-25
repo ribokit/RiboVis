@@ -332,7 +332,7 @@ def rr( selection = "all" ):
 
   cmd.alter( "resn mg and "+selection, "vdw=1.0")
   cmd.alter( "resn hoh and "+selection, "vdw=0.5")
-  cmd.show( "spheres", "resn mg+sr+co+zn+hoh and not elem H and "+selection)
+  cmd.show( "spheres", "resn mg+sr+co+zn and not elem H and "+selection)
   cmd.hide( "ev","name RP* and "+selection)
 
 def render_rna():
