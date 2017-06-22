@@ -55,8 +55,9 @@ Documentation is available at https://ribokit.github.io/RiboVis/.
 
 Copyright &copy; of **RiboVis** _Source Code_ is described in [LICENSE.md](https://github.com/ribokit/RiboVis/blob/master/LICENSE.md).
 
-<br/>
+<hr/>
+
 Developed by **Das lab**, _Leland Stanford Junior University_.
-<br/>
-README by [**t47**](http://t47.io/), *April 2016*.
+
+README by [**t47**](https://t47.io/), *April 2016*.
 
