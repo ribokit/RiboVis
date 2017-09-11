@@ -335,34 +335,35 @@ def rr( selection = "all" ):
   cmd.show( "spheres", "resn mg+sr+co+zn and not elem H and "+selection)
   cmd.hide( "ev","name RP* and "+selection)
 
-def render_rna():
-  rr()
+def render_rna( selection = "all" ):
+  rr( selection )
 
-def rrs():
+def rrs( selection = "all" ):
   """)
   rhiju's favorite coloring of RNA, showing
   all heavy atoms as sticks -- more detail than rr().
   """
-  rr()
-  cmd.show( 'sticks', 'not elem H' )
-  cmd.hide( "ev","name RP*")
+  rr( selection )
+  cmd.show( 'sticks', 'not elem H and '+selection )
+  cmd.hide( "ev","name RP* and "+selection)
 
-def render_rna_sticks():
-  rr()
+def render_rna_sticks( selection = "all" ):
+  rr( selection )
 
-def rr2():
+def rf( selection = "all" ):
   """
-  rhiju's favorite coloring of RNA, showing
-  all heavy atoms as sticks -- more detail than rr().
+  rhiju's favorite coloring of RNA, with fewer details
   """
-  rr()
-  cmd.hide( 'spheres' )
-  cmd.hide( 'sticks' )
-  cmd.set( "cartoon_ring_mode", 0 )
+  rr( selection )
+  cmd.hide( 'spheres', selection )
+  cmd.hide( 'sticks', selection )
+  cmd.hide( 'lines', selection )
+  cmd.set( 'cartoon_ring_mode', 1 )
+  cmd.show( 'lines', "not elem H and not name *' and not name *P* and "+selection )
+  cmd.show( 'lines', "name O2'+C2' and "+selection )
 
-def render_rna2():
-  rr2()
-
+def render_rna_fine( selection = "all" ):
+  rf( selection )
 
 def get_residue_colors( sele ):
   """
