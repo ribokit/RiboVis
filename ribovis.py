@@ -4,7 +4,7 @@ from glob import glob
 #from spectrumany import spectrumany
 
 # Pymol commands used by the Das Lab
-# (C) R. Das 2010-2013.
+# (C) R. Das 2010-2013, 2017.
 #
 # Some documentation and sample images available at:
 #
@@ -365,7 +365,7 @@ def rf( selection = "all" ):
 def render_rna_fine( selection = "all" ):
   rf( selection )
 
-def get_residue_colors( sele ):
+def get_residue_colors( sele = "all", outfile = "colors.txt" ):
   """
   Get RGB color values associated with a selection.
   Useful if you want to exactly match coloring of 3D models
@@ -374,10 +374,14 @@ def get_residue_colors( sele ):
   pymol.stored.colors = []
   cmd.iterate( sele, "stored.colors.append( (chain, resi, name, color))")
   res_colors = {}
-  for chain, resi, name, color in pymol.stored.colors:
-    if name == 'CA': # c-alpha atom
-      res_colors[(chain, resi)] = cmd.get_color_tuple(color)
-  print res_colors
+  stored_colors = pymol.stored.colors;
+  fid = open( outfile, 'w' )
+  for chain, resi, name, color in stored_colors:
+    if name == 'CA' or name == 'P': # c-alpha atom
+      color_tuple = cmd.get_color_tuple(color)
+      res_colors[chain+resi] = color_tuple
+      fid.write( '%s%s %f %f %f\n' % (chain,resi,color_tuple[0],color_tuple[1],color_tuple[2]) )
+  print "Outputted RGB colors to: ", outfile
   return res_colors
 
 def spr():
