@@ -384,6 +384,36 @@ def get_residue_colors( sele = "all", outfile = "colors.txt" ):
   print "Outputted RGB colors to: ", outfile
   return res_colors
 
+def fade_color( sele = "all", fade_extent = 0.7, by_chain = True ):
+  """
+  Fade out RGB color values associated with a selection.
+  The by_chain variable assumes that chains are uniform color, to
+    allow speedy color setting based on chain, rather than based on
+    residue (which can take a long time!)
+  """
+  pymol.stored.colors = []
+  cmd.iterate( sele, "stored.colors.append( (chain, resi, name, color))")
+  res_colors = {}
+  stored_colors = pymol.stored.colors;
+
+  cols = []
+  colorname = ''
+  prev_chain = ''
+  for chain, resi, name, color in stored_colors:
+    if name == 'CA' or name == 'P': # c-alpha atom
+      if by_chain and chain != prev_chain and len( colorname ) > 0:
+        cmd.color( colorname, 'chain %s and %s' % (chain,sele) )
+      color_tuple = cmd.get_color_tuple(color)
+      cols = [];
+      for i in range(3):
+        cols.append( fade_extent  + ( 1.0  - fade_extent ) * float(color_tuple[ i ]) )
+      colorname = 'temp_chain%s' % chain
+      cmd.set_color( colorname, cols )
+      if not by_chain: cmd.color( colorname, 'resi %s and chain %s and %s' % (resi,chain,sele) )
+      prev_chain = chain
+
+  if by_chain: cmd.color( colorname, 'chain %s and %s' % (chain,sele) )
+
 def spr():
   """
   Load up these commands again after, say, an edit.
