@@ -4,7 +4,7 @@ from glob import glob
 #from spectrumany import spectrumany
 
 # Pymol commands used by the Das Lab
-# (C) R. Das 2010-2013, 2017.
+# (C) R. Das 2010-2013, 2017-2018
 #
 # Some documentation and sample images available at:
 #
@@ -113,7 +113,6 @@ def color_by_data( filename, offset = 0, min_val=-1.0, max_val = 0.0, palette = 
       if min_val >= 0 and dataval2 < min_val: dataval2 = min_val
       if max_val > 0 and dataval2 > max_val: dataval2 = max_val
       data_backbone[ int( cols[0] ) ] = dataval2
-
 
   avg_data /= len( data.keys() )
 
@@ -398,11 +397,12 @@ def fade_color( sele = "all", fade_extent = 0.7, by_chain = True ):
 
   cols = []
   colorname = ''
+  chain = ''
   prev_chain = ''
   for chain, resi, name, color in stored_colors:
     if name == 'CA' or name == 'P': # c-alpha atom
       if by_chain and chain != prev_chain and len( colorname ) > 0:
-        cmd.color( colorname, 'chain %s and %s' % (chain,sele) )
+        cmd.color( colorname, 'chain %s and %s' % (prev_chain,sele) )
       color_tuple = cmd.get_color_tuple(color)
       cols = [];
       for i in range(3):
@@ -550,3 +550,19 @@ def load_movie( filename_string, movie_name = "mov" ):
   lst = glob( filename_string )
   lst.sort()
   for fil in lst: cmd.load(fil, movie_name )
+
+def raytracemode():
+  """
+  Compliments of Possu Huang, updated with ray_tracr_gain by Rhiju.
+  Use with rcd() for good visualization of ribosome.
+  """
+  cmd.set( 'cartoon_fancy_helices', 1 )
+  cmd.set( 'cartoon_dumbbell_width', 0.6 )
+  #cmd.set( 'cartoon_dumbbell_length', 1.80000 )
+  cmd.set( 'cartoon_dumbbell_length', 1.00 ) # better for ribosome
+  cmd.set( 'cartoon_dumbbell_radius', 0.42 )
+  cmd.set( 'cartoon_loop_radius', 0.3 )
+  cmd.set( 'ray_trace_mode', 1 )
+  cmd.set( 'ray_opaque_background', 0 )
+  cmd.set( 'ray_trace_gain', 0.5 )  # better for ribosome
+  print "Now type: ray 1200,1200"
