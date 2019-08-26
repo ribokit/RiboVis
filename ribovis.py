@@ -1,3 +1,4 @@
+from __future__ import print_function
 from pymol import cmd,util
 import inspect
 from glob import glob
@@ -21,7 +22,7 @@ def all_vs_all(filename='rms_matrix.txt'):
       rmsd = cmd.rms( x, y, cutoff=10)#[0] # super-inclusive
       x_to_all.append(rmsd)
     matrix.append(x_to_all)
-  print matrix
+  print(matrix)
   outfile = open(filename,'w')
   # No names 'on top' -- we can figure these out from the vertical ordering
   # and they're way too long...
@@ -146,13 +147,13 @@ def color_by_rgb( filename, selection = "all" ):
 
   """
   lines = open( filename ).readlines()
-  print "Applying RGB values from: " , filename
+  print("Applying RGB values from: " , filename)
   for line in lines:
     cols = string.split( line )
     j = cols[0]
     colorname = string.split(filename)[0] + str(j)
     cmd.set_color( colorname, (float(cols[1]),float(cols[2]),float(cols[3])) )
-    #print colorname
+    #print(colorname)
     cmd.color( colorname, 'resi %s and %s' % (cols[0],selection) )
 
 def blue_red( which_property = "resi", selection="all", minval = 0.0, maxval = 2.0 ):
@@ -205,7 +206,7 @@ def rd():
 
   for x in AllObj:
     #print(AllObj[0],x)
-    print x
+    print(x)
     cmd.show( "cartoon", x )
     cmd.hide( "line", x )
     cmd.color( "white", x+" and elem C" )
@@ -231,7 +232,7 @@ def rx():
 
   for x in AllObj:
     #print(AllObj[0],x)
-    print x
+    print(x)
     cmd.hide( "line", x )
     cmd.color( "white", x+" and elem C" )
     cmd.color( "blue", x+" and elem N" )
@@ -261,7 +262,7 @@ def rj():
 
   for x in AllObj:
     #print(AllObj[0],x)
-    print x
+    print(x)
     cmd.show( "cartoon", x )
     #cmd.hide( "line", x )
     cmd.show( "line", x )
@@ -380,7 +381,7 @@ def get_residue_colors( sele = "all", outfile = "colors.txt" ):
       color_tuple = cmd.get_color_tuple(color)
       res_colors[chain+resi] = color_tuple
       fid.write( '%s%s %f %f %f\n' % (chain,resi,color_tuple[0],color_tuple[1],color_tuple[2]) )
-  print "Outputted RGB colors to: ", outfile
+  print("Outputted RGB colors to: ", outfile)
   return res_colors
 
 def fade_color( sele = "all", fade_extent = 0.7, by_chain = True ):
@@ -518,7 +519,7 @@ def rc( selection = "all" ):
   cmd.select( 'backbone', " (name o1p+o2p+o3p+p+op1+op2+'c1*'+'c2*'+'c3*'+'c5*'+'o2*'+'o3*'+'o4*'+'o5*'+'c1*'+'c2*'+'c3*'+'c4*'+'o2*'+'o4*'+c1'+c2'+c3'+c5'+o2'+o3'+o4'+o5'+c1'+c2'+c3'+c4'+o2'+o4') and (not name c1+c2+c3+c4+c5+o2+o3+o4+o5) ")
 
   #for x in AllObj:
-  #print x
+  #print(x)
   cmd.show( "cartoon", selection )
   cmd.spectrum( "resi", "rainbow", selection+" and backbone" )
 
@@ -565,4 +566,4 @@ def raytracemode():
   cmd.set( 'ray_trace_mode', 1 )
   cmd.set( 'ray_opaque_background', 0 )
   cmd.set( 'ray_trace_gain', 0.5 )  # better for ribosome
-  print "Now type: ray 1200,1200"
+  print("Now type: ray 1200,1200")
