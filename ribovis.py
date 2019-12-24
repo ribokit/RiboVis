@@ -301,12 +301,12 @@ def rr( selection = "all" ):
   cmd.hide( "everything","resn HOH" )
 
   cmd.color('white','elem C and ' + selection )
-  cmd.color( 'red','resn rG+G+DG+GUA and ' + selection)
+  cmd.color( 'red','resn rG+G+GTP+DG+GUA and ' + selection)
   cmd.color( 'forest','resn rC+C+DC+CYT and ' + selection)
   cmd.color( 'orange','resn rA+A+DA+ADE and ' + selection)
   cmd.color( 'blue','resn rU+U+DT+BRU+URA+THY and ' + selection)
 
-  cmd.color( 'red','resn rG+G+DG+GUA and name n1+c6+o6+c5+c4+n7+c8+n9+n3+c2+n1+n2 and ' + selection)
+  cmd.color( 'red','resn rG+G+GTP+DG+GUA and name n1+c6+o6+c5+c4+n7+c8+n9+n3+c2+n1+n2 and ' + selection)
   cmd.color( 'forest','resn rC+C+DC+CYT and name n1+c2+o2+n3+c4+n4+c5+c6 and ' + selection)
   cmd.color( 'orange','resn rA+A+DA+ADE and name n1+c6+n6+c5+n7+c8+n9+c4+n3+c2 and ' + selection)
   cmd.color( 'blue','resn rU+U+URA+THY and name n3+c4+o4+c5+c6+n1+c2+o2 and ' + selection)
@@ -511,7 +511,7 @@ def rc( selection = "all" ):
 
   cmd.hide( 'everything',selection )
 
-  cmd.color( 'red','resn rG+G+DG and '+selection )
+  cmd.color( 'red','resn rG+G+GTP+DG and '+selection )
   cmd.color( 'forest','resn rC+C+DC and '+selection)
   cmd.color( 'orange','resn rA+A+DA and '+selection)
   cmd.color( 'blue','resn rU+U+DT+BRU and '+selection)
@@ -529,7 +529,7 @@ def rc( selection = "all" ):
   cmd.set( "cartoon_ring_transparency", 0.0 )
   cmd.set( "cartoon_tube_radius", 1.0 )
 
-  cmd.color( 'red','resn rG+G and name n1+c6+o6+c5+c4+n7+c8+n9+n3+c2+n1+n2 and '+selection)
+  cmd.color( 'red','resn rG+G+GTP and name n1+c6+o6+c5+c4+n7+c8+n9+n3+c2+n1+n2 and '+selection)
   cmd.color( 'forest','resn rC+C and name n1+c2+o2+n3+c4+n4+c5+c6 and '+selection)
   cmd.color( 'orange','resn rA+A and name n1+c6+n6+c5+n7+c8+n9+c4+n3+c2 and '+selection)
   cmd.color( 'blue','resn rU+U and name n3+c4+o4+c5+c6+n1+c2+o2 and '+selection)
@@ -558,12 +558,12 @@ def re( selection = "all" ):
   cmd.hide( "everything","resn HOH" )
 
   cmd.color('white','elem C and ' + selection )
-  cmd.color( '0xA02C28','resn rG+G+DG+GUA and ' + selection)
+  cmd.color( '0xA02C28','resn rG+G+GTP+DG+GUA and ' + selection)
   cmd.color( '0x458147','resn rC+C+DC+CYT and ' + selection)
   cmd.color( '0xF4C25C','resn rA+A+DA+ADE and ' + selection)
   cmd.color( '0x3577AF','resn rU+U+DT+BRU+URA+THY and ' + selection)
 
-  #cmd.color( 'red','resn rG+G+DG+GUA and name n1+c6+o6+c5+c4+n7+c8+n9+n3+c2+n1+n2 and ' + selection)
+  #cmd.color( 'red','resn rG+G+GTP+DG+GUA and name n1+c6+o6+c5+c4+n7+c8+n9+n3+c2+n1+n2 and ' + selection)
   #cmd.color( 'forest','resn rC+C+DC+CYT and name n1+c2+o2+n3+c4+n4+c5+c6 and ' + selection)
   #cmd.color( 'orange','resn rA+A+DA+ADE and name n1+c6+n6+c5+n7+c8+n9+c4+n3+c2 and ' + selection)
   #cmd.color( 'blue','resn rU+U+URA+THY and name n3+c4+o4+c5+c6+n1+c2+o2 and ' + selection)
