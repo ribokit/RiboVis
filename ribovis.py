@@ -1,6 +1,7 @@
 from __future__ import print_function
 from pymol import cmd,util
 import inspect
+import math
 from glob import glob
 #from spectrumany import spectrumany
 
@@ -99,12 +100,20 @@ def color_by_data( filename, offset = 0, min_val=-1.0, max_val = 0.0, palette = 
   avg_data = 0.0
   min_data = 0.0
   max_data = 0.0
+  nan_res = []
   for line in lines:
-    cols = string.split( line )
+    cols = line.split()
     dataval = float( cols[1] )
+    if math.isnan(dataval) or not cols[0].isnumeric() or int(cols[0])==-1e18:
+      if cols[0].isnumeric(): nan_res.append( int(cols[0]) )
+      continue
+
     if min_val >= 0 and dataval < min_val: dataval = min_val
     if max_val > 0 and dataval > max_val: dataval = max_val
-    data[ int( cols[0] )  ] = dataval
+    try:
+      data[ int( cols[0] )  ] = dataval
+    except:
+      pass
     avg_data = avg_data + dataval
     if ( dataval < min_data ): min_data = dataval
     if ( dataval > max_data ): max_data = dataval
@@ -129,11 +138,14 @@ def color_by_data( filename, offset = 0, min_val=-1.0, max_val = 0.0, palette = 
   if ( min_val < 0 ): min_val = min_data
   if ( max_val < 0 ): max_val = max_data
 
+
   #if palette == 'rainbow':
   cmd.spectrum( "b", palette,"all",min_val,max_val )
   #else:
   #  spectrumany( "b", palette,"all",min_val,max_val )
   #cmd.ramp_new("ramp_obj", "1gid_RNAA", range=[0, 0, max_val], color="[blue, white, red ]")
+
+  for i in nan_res: cmd.color( 'white', 'resi  \\%d' % (i+int(offset)) )
 
 
 def color_by_rgb( filename, selection = "all" ):
@@ -170,7 +182,7 @@ def align_all( subset = [], cealign = False ):
   Superimpose all open models onto the first one.
   This may not work well with selections.
   """
-  AllObj=cmd.get_names("all")
+  AllObj=cmd.get_names("public_objects")
   for x in AllObj[1:]:
     print(AllObj[0],x)
 
@@ -241,11 +253,11 @@ def rx():
     cmd.spectrum( "resi", "rainbow", x+" and name CA+C" )
     #cmd.show( "sticks", x +" and not elem H and not name C+N+O" )
 
-    cmd.select('backbone','name o+c+ca+n')
+    cmd.select('backbone_','name o+c+ca+n')
     cmd.show('sticks','not elem H')
 
     if not x.count( 'BACKBONE' ):
-      cmd.create( x+"_BACKBONE", x+" and not element H and backbone" )
+      cmd.create( x+"_BACKBONE", x+" and not element H and backbone_" )
 
 
     cmd.set('stick_radius', '0.5', "*BACKBONE" )
@@ -311,11 +323,11 @@ def rr( selection = "all" ):
   cmd.color( 'orange','resn rA+A+DA+ADE and name n1+c6+n6+c5+n7+c8+n9+c4+n3+c2 and ' + selection)
   cmd.color( 'blue','resn rU+U+URA+THY and name n3+c4+o4+c5+c6+n1+c2+o2 and ' + selection)
 
-  cmd.select( 'backbone', " (name o1p+o2p+o3p+p+op1+op2+'c1*'+'c2*'+'c3*'+'c5*'+'o2*'+'o3*'+'o4*'+'o5*'+'c1*'+'c2*'+'c3*'+'c4*'+'o2*'+'o4*'+c1'+c2'+c3'+c5'+o2'+o3'+o4'+o5'+c1'+c2'+c3'+c4'+o2'+o4') and (not name c1+c2+c3+c4+c5+o2+o3+o4+o5) and " + selection)
-  cmd.spectrum( "resi", "rainbow", "backbone" )
-  cmd.cartoon( "tube", "backbone" )
-  cmd.hide( "sticks", "backbone" )
-  cmd.delete('backbone')
+  cmd.select( 'backbone_', " (name o1p+o2p+o3p+p+op1+op2+'c1*'+'c2*'+'c3*'+'c5*'+'o2*'+'o3*'+'o4*'+'o5*'+'c1*'+'c2*'+'c3*'+'c4*'+'o2*'+'o4*'+c1'+c2'+c3'+c5'+o2'+o3'+o4'+o5'+c1'+c2'+c3'+c4'+o2'+o4') and (not name c1+c2+c3+c4+c5+o2+o3+o4+o5) and " + selection)
+  cmd.spectrum( "resi", "rainbow", "backbone_" )
+  cmd.cartoon( "tube", "backbone_" )
+  cmd.hide( "sticks", "backbone_" )
+  cmd.delete('backbone_')
 
   cmd.show( "cartoon", selection )
   cmd.set( "cartoon_ring_mode", 3 )
@@ -516,14 +528,14 @@ def rc( selection = "all" ):
   cmd.color( 'orange','resn rA+A+DA and '+selection)
   cmd.color( 'blue','resn rU+U+DT+BRU and '+selection)
 
-  cmd.select( 'backbone', " (name o1p+o2p+o3p+p+op1+op2+'c1*'+'c2*'+'c3*'+'c5*'+'o2*'+'o3*'+'o4*'+'o5*'+'c1*'+'c2*'+'c3*'+'c4*'+'o2*'+'o4*'+c1'+c2'+c3'+c5'+o2'+o3'+o4'+o5'+c1'+c2'+c3'+c4'+o2'+o4') and (not name c1+c2+c3+c4+c5+o2+o3+o4+o5) ")
+  cmd.select( 'backbone_', " (name o1p+o2p+o3p+p+op1+op2+'c1*'+'c2*'+'c3*'+'c5*'+'o2*'+'o3*'+'o4*'+'o5*'+'c1*'+'c2*'+'c3*'+'c4*'+'o2*'+'o4*'+c1'+c2'+c3'+c5'+o2'+o3'+o4'+o5'+c1'+c2'+c3'+c4'+o2'+o4') and (not name c1+c2+c3+c4+c5+o2+o3+o4+o5) ")
 
   #for x in AllObj:
   #print(x)
   cmd.show( "cartoon", selection )
-  cmd.spectrum( "resi", "rainbow", selection+" and backbone" )
+  cmd.spectrum( "resi", "rainbow", selection+" and backbone_" )
 
-  cmd.cartoon( "tube", "backbone and "+selection )
+  cmd.cartoon( "tube", "backbone_ and "+selection )
 
   cmd.set( "cartoon_ring_mode", 0 )
   cmd.set( "cartoon_ring_transparency", 0.0 )
@@ -534,7 +546,7 @@ def rc( selection = "all" ):
   cmd.color( 'orange','resn rA+A and name n1+c6+n6+c5+n7+c8+n9+c4+n3+c2 and '+selection)
   cmd.color( 'blue','resn rU+U and name n3+c4+o4+c5+c6+n1+c2+o2 and '+selection)
 
-  cmd.delete('backbone')
+  cmd.delete('backbone_')
 
 def rcd( selection = "all" ):
   """
@@ -568,11 +580,11 @@ def re( selection = "all" ):
   #cmd.color( 'orange','resn rA+A+DA+ADE and name n1+c6+n6+c5+n7+c8+n9+c4+n3+c2 and ' + selection)
   #cmd.color( 'blue','resn rU+U+URA+THY and name n3+c4+o4+c5+c6+n1+c2+o2 and ' + selection)
 
-  cmd.select( 'backbone', " (name o1p+o2p+o3p+p+op1+op2+'c1*'+'c2*'+'c3*'+'c5*'+'o2*'+'o3*'+'o4*'+'o5*'+'c1*'+'c2*'+'c3*'+'c4*'+'o2*'+'o4*'+c1'+c2'+c3'+c5'+o2'+o3'+o4'+o5'+c1'+c2'+c3'+c4'+o2'+o4') and (not name c1+c2+c3+c4+c5+o2+o3+o4+o5) and " + selection)
-  # cmd.spectrum( "resi", "rainbow", "backbone" )
-  cmd.cartoon( "tube", "backbone" )
-  cmd.hide( "sticks", "backbone" )
-  cmd.delete('backbone')
+  cmd.select( 'backbone_', " (name o1p+o2p+o3p+p+op1+op2+'c1*'+'c2*'+'c3*'+'c5*'+'o2*'+'o3*'+'o4*'+'o5*'+'c1*'+'c2*'+'c3*'+'c4*'+'o2*'+'o4*'+c1'+c2'+c3'+c5'+o2'+o3'+o4'+o5'+c1'+c2'+c3'+c4'+o2'+o4') and (not name c1+c2+c3+c4+c5+o2+o3+o4+o5) and " + selection)
+  # cmd.spectrum( "resi", "rainbow", "backbone_" )
+  cmd.cartoon( "tube", "backbone_" )
+  cmd.hide( "sticks", "backbone_" )
+  cmd.delete('backbone_')
 
   cmd.show( "cartoon", selection )
   cmd.set( "cartoon_ring_mode", 3 )
